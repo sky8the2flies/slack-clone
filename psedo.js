@@ -1,3 +1,23 @@
+/* USERS
+Model:
+_id: created auto
+- Username: String
+- Email: String
+- Avatar: String
+- googleid: String
+
+Controller:
+- view
+- create
+- update
+- delete
+
+Routes:
+- GET /users/:id
+- POST /users
+- DELETE /users/:id
+- PUT /users/:id
+*/
 /* CHANNELS
 Model:
 - _id: created auto
