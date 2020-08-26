@@ -3,7 +3,7 @@ Model:
 - _id: created auto
 - Name: String, possibly unique
 - Description: String
-- Members: _id ref Users
+- Members: _id ref User
 
 Controller:
 - view
@@ -23,6 +23,7 @@ Model:
 - Content: String
 - Reactions: String? Will be emojies [ICE BOX]
 - Replies: [messageSchema]
+- Member: _id ref User
 - Channel: _id ref Channel
 
 Controller:
@@ -41,6 +42,7 @@ Routes:
  - _id: created auto
  - Content: String
  - Reactions: String? Will be emojies [ICE BOX]
+ - Member: _id red User
 
  Controller:
  - create
