@@ -2,17 +2,17 @@
     <div class="channel-head">
         <h1>Channels</h1>
         <form class="form" action="/channels" method="POST">
-            <div class="form-input">
+            <div class="form-input w90">
                 <input placeholder="Channel Name" type="text" name="name">
             </div>
-            <div class="form-input">
+            <div class="form-textarea w90">
                 <textarea placeholder="Channel Description" name="description" cols="25" rows="5"></textarea>
             </div>
             <div class="form-checkbox">
                 <label for="form-private">Private?</label>
                 <input id="form-private" type="checkbox" name="channelType">
             </div>
-            <div class="form-submit">
+            <div class="form-submit w90">
                 <input type="submit" value="Add Channel">
             </div>
         </form>
@@ -20,7 +20,9 @@
     <% if (channel && channel.all.length) { %>
         <% channel.all.forEach(chan => { %>
             <div class="channel-container">
-                <a href="/channels/<%= chan._id %>">#<%= chan.name %></a>
+                <% if (chan.channelType === '0' || (chan.channelType === '1' && user && chan.members.find(member => member._id.equals(user._id)))) {%>
+                    <a href="/channels/<%= chan._id %>">#<%= chan.name %></a>
+                <% } %>
             </div>
         <% }); %>
     <% } %>

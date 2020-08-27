@@ -1,4 +1,5 @@
 const Channel = require('../models/channel');
+const Message = require('../models/message');
 
 module.exports = {
     show,
@@ -7,14 +8,37 @@ module.exports = {
 }
 
 function show(req, res) {
-    Channel.find({}, function(err, chanels) {
+    Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
-        res.render('')
+        Channel.findById(req.params.cid, function(err, chan) {
+            if (err) return console.log(err);
+            Message.findOne({channel: chan._id}).populate('member').exec(function(err, messages) {
+                if (err) return console.log(err);
+                res.render('channels/show', {
+                    channel: {
+                        current: chan,
+                        all: channels
+                    },
+                    messages,
+                    user: req.user
+                });
+            });
+        });
     });
 }
 
 function create(req, res) {
-
+    if (!req.user) { console.log('login numnuts'); return res.redirect('/');}
+    req.body.name = req.body.name.replace(/\s\s+/g, ' ').replace(/\s/g, '-').toLowerCase();
+    req.body.channelType ? req.body.channelType = '1' : req.body.channelType = '0';
+    if (req.body.channelType === '1') 
+        req.body.members = [req.user._id];
+    console.log(req.body)
+    const channel = new Channel(req.body);
+    channel.save(function(err) {
+        if (err) console.log(err);
+        res.redirect('/');
+    });
 }
 
 function deleteChannel(req, res) {
