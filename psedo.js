@@ -1,7 +1,7 @@
 /* USERS
 Model:
 _id: created auto
-- Username: String
+- Name: String
 - Email: String
 - Avatar: String
 - googleid: String
