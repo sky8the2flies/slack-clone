@@ -7,3 +7,17 @@
     <link rel="stylesheet" href="stylesheets/style">
 </head>
 <body class="container">
+    <div class="nav-container">
+        <div class="nav-side-container">
+        </div>
+        <div class="name-main-container">
+                <% if (channel) { %>
+                    <h1>#<%= channel.name %></h1>
+                <% } %>
+                <% if (user) { %>
+                    <h2>Welcome, <%= user.name %></h2> | <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/auth/google">Login with google</a>
+                <% } %>
+        </div>
+    </div>
