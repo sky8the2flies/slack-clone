@@ -11,8 +11,8 @@
         <div class="nav-side-container">
         </div>
         <div class="name-main-container">
-                <% if (channel) { %>
-                    <h1>#<%= channel.name %></h1>
+                <% if (channel && channel.current) { %>
+                    <h1>#<%= channel.current %></h1>
                 <% } %>
                 <% if (user) { %>
                     <h2>Welcome, <%= user.name %></h2> | <a href="/logout">Logout</a>
