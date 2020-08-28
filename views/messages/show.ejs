@@ -1,0 +1,124 @@
+<%- include('../partials/header'); %>
+<%- include('../partials/channels'); %>
+
+<!-- channel: {
+        current: channel,
+        all: channels
+    },
+    message,
+    user: req.user -->
+<div class="messages-container">
+    <div class="message-container">
+        <div class="message-head">
+            <img src="<%= message.member.avatar %>" alt="avatar">
+            <h1><%= message.member.name %></h1>
+            <p><%= formatAMPM(new Date(message.createdAt)) %></p>
+        </div>
+        <div class="message-content">
+            <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
+            <div class="content">
+                <p><%= message.content %></p>
+            </div>
+        </div>
+    </div>
+    <div class="message-date">
+        <h1><span>Replies</span></h1>
+    </div>
+    <% if (replies.length) {
+        let prevMember;
+        replies.forEach(reply => { %>
+            <div class="message-container">
+                <div class="message-head">
+                    <% if (prevMember !== reply.member._id) { %>
+                        <img src="<%= reply.member.avatar %>" alt="avatar">
+                        <h1><%= reply.member.name %></h1>
+                        <p><%= formatAMPM(new Date(reply.createdAt)) %></p>
+                        <% prevMember = reply.member._id %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="message-content">
+                <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
+                <div class="content">
+                    <p><%= reply.content %></p>
+                    <div class="message-details">
+                        <% if (user && user._id.equals(reply.member._id)) { %>
+                            <form action="">
+                                <button><i class="far fa-edit"></i></button>
+                            </form>
+                            <form action="">
+                                <button class="delete"><i class="fas fa-backspace"></i></button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% });
+     } %>
+</div>
+<div class="messagebox-container">
+    <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
+        <div class="form-textarea w90">
+            <textarea placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
+        </div>
+        <div class="form-submit w90">
+            <input type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer'); %>
+
+<% 
+function getDay(day) {
+    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return weekdays[day];
+}
+function getMonth(month) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+    return monthNames[month];
+
+}
+function ordinalSuffix(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+function formatDate(date) {
+    const day = date.getDay();
+    const dayStr = getDay(day);
+    const ordSuf = ordinalSuffix(day);
+    const month = getMonth(date.getMonth());
+    const strDate = `${dayStr}, ${month} ${ordSuf}`;
+    return strDate;
+}
+function formatAMPM(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
+function formatHM(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const strTime = hours + ':' + minutes;
+    return strTime;
+}
+%>
