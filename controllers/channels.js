@@ -12,8 +12,9 @@ function show(req, res) {
         if (err) return console.log(err);
         Channel.findById(req.params.cid, function(err, chan) {
             if (err) return console.log(err);
-            Message.findOne({channel: chan._id}).populate('member').exec(function(err, messages) {
+            Message.find({channel: chan._id}).populate('member').exec(function(err, messages) {
                 if (err) return console.log(err);
+                console.log(messages)
                 res.render('channels/show', {
                     channel: {
                         current: chan,

@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Klack - Simplified slack clone</title>
-    <link rel="stylesheet" href="stylesheets/style">
 </head>
 <body class="container">
     <div class="nav-container">
         <div class="nav-side-container">
+            <h1>TEMP</h1>
         </div>
-        <div class="name-main-container">
-                <% if (channel && channel.current) { %>
-                    <h1>#<%= channel.current.name %></h1>
-                <% } %>
-                <% if (user) { %>
-                    <h2>Welcome, <%= user.name %></h2> | <a href="/logout">Logout</a>
-                <% } else { %>
-                    <a href="/auth/google">Login with google</a>
-                <% } %>
+        <div class="nav-main-container">
+            <% if (channel && channel.current) { %>
+                <h1>#<%= channel.current.name %></h1>
+            <% } %>
+            <% if (user) { %>
+                <h2>Welcome, <%= user.name %></h2>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/auth/google">Login with google</a>
+            <% } %>
         </div>
     </div>
