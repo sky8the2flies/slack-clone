@@ -3,7 +3,7 @@
         <h1>Channels</h1>
         <form class="form" action="/channels" method="POST">
             <div class="form-input w90">
-                <input placeholder="Channel Name" type="text" name="name">
+                <input pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" placeholder="Channel Name" type="text" name="name" required>
             </div>
             <div class="form-textarea w90">
                 <textarea placeholder="Channel Description" name="description"></textarea>

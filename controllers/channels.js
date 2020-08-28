@@ -30,16 +30,14 @@ function show(req, res) {
 
 function create(req, res) {
     if (!req.user) { console.log('login numnuts'); return res.redirect('/');}
-    req.body.name = req.body.name.replace(/\s\s+/g, ' ').replace(/\s/g, '-').toLowerCase();
+    req.body.name = req.body.name.trimEnd().trimStart().replace(/\s+/g, '-').replace(/\-+/g, '-').toLowerCase();
     req.body.channelType ? req.body.channelType = '1' : req.body.channelType = '0';
-    if (req.body.channelType === '1') 
-        req.body.members = [req.user._id];
-    console.log(req.body)
+    req.body.members = [req.user._id];
     const channel = new Channel(req.body);
     channel.save(function(err) {
         if (err) console.log(err);
-        res.redirect('/');
     });
+    res.redirect('/');
 }
 
 function deleteChannel(req, res) {

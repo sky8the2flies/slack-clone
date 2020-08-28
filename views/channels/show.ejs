@@ -1,5 +1,4 @@
 <%- include('../partials/header'); %>
-
 <%- include('../partials/channels'); %>
 
 <div class="messages-container">
@@ -29,13 +28,13 @@
                     <div class="content">
                         <p><%= message.content %></p>
                         <div class="message-details">
-                            <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>"><</a>
+                            <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>"><i class="fas fa-reply"></i></a>
                             <% if (user && user._id.equals(message.member._id)) { %>
                                 <form action="">
-                                    <button>E</button>
+                                    <button><i class="far fa-edit"></i></button>
                                 </form>
                                 <form action="">
-                                    <button class="delete">X</button>
+                                    <button class="delete"><i class="fas fa-backspace"></i></button>
                                 </form>
                             <% } %>
                         </div>
