@@ -1,4 +1,4 @@
-/* USERS
+/* MEMBERS
 Model:
 _id: created auto
 - Name: String
@@ -13,17 +13,17 @@ Controller:
 - delete
 
 Routes:
-- GET /users/:id
-- POST /users
-- DELETE /users/:id
-- PUT /users/:id
+- GET /members/:id
+- POST /members
+- DELETE /members/:id
+- PUT /members/:id
 */
 /* CHANNELS
 Model:
 - _id: created auto
 - Name: String, possibly unique
 - Description: String
-- Members: _id ref User
+- Members: _id ref Member
 
 Controller:
 - view
@@ -43,7 +43,7 @@ Model:
 - Content: String
 - Reactions: String? Will be emojies [ICE BOX]
 - Replies: [messageSchema]
-- Member: _id ref User
+- Member: _id ref Member
 - Channel: _id ref Channel
 
 Controller:
@@ -62,7 +62,8 @@ Routes:
  - _id: created auto
  - Content: String
  - Reactions: String? Will be emojies [ICE BOX]
- - Member: _id red User
+ - message: _id ref Message
+ - Member: _id red Member
 
  Controller:
  - create
