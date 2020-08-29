@@ -6,6 +6,7 @@ module.exports = {
     show,
     edit,
     create,
+    update,
     delete: deleteMessage
 }
 
@@ -16,7 +17,6 @@ function show(req, res) {
             if (err) return console.log(err);
             Message.find({channel: chan._id}).populate('member').exec(function(err, messages) {
                 if (err) return console.log(err);
-                console.log(messages)
                 res.render('messages/show', {
                     channel: {
                         current: chan,
@@ -31,7 +31,37 @@ function show(req, res) {
 }
 
 function edit(req, res) {
-    
+    Channel.find({}, function(err, channels) {
+        if (err) return console.log(err);
+        Channel.findById(req.params.cid, function(err, chan) {
+            if (err) return console.log(err);
+            Message.find({channel: chan._id}).populate('member').exec(function(err, mess) {
+                if (err) return console.log(err);
+                res.render('messages/edit', {
+                    channel: {
+                        current: chan,
+                        all: channels
+                    },
+                    messages: {
+                        current: req.params.mid,
+                        all: mess
+                    },
+                    user: req.user
+                });
+            });
+        });
+    });
+}
+
+function update(req, res) {
+    Message.findById(req.params.mid, function(err, message) {
+        if (err) return console.log(err);
+        message.content = req.body.content;
+        message.save(function (err) {
+            if (err) return console.log(err);
+            res.redirect(`/channels/${req.params.cid}`);
+        });
+    });
 }
 
 function create(req, res) {
@@ -46,7 +76,7 @@ function create(req, res) {
 
 function deleteMessage(req, res) {
     Message.findById(req.params.mid, function(err, message) {
-        if (message.replies) {
+        if (message.replies.length) {
             message.content = "This message was deleted."
             message.removed = true;
             message.save(function(err) {

@@ -7,10 +7,13 @@ const repliesCtrl = require('../controllers/replies');
 router.post('/', channelCtrl.create);
 router.get('/:cid', messageCtrl.show);
 router.post('/:cid/messages', messageCtrl.create);
+router.put('/:cid/messages/:mid', messageCtrl.update);
+router.delete('/:cid/messages/:mid', messageCtrl.delete);
+router.get('/:cid/messages/:mid/edit', messageCtrl.edit);
 router.get('/:cid/messages/:mid', repliesCtrl.show);
 router.post('/:cid/messages/:mid', repliesCtrl.create);
-router.post('/:cid/messages/:mid/edit')
-router.delete('/:cid/messages/:mid', messageCtrl.delete);
+router.put('/:cid/messages/:mid/replies/:rid', repliesCtrl.update);
 router.delete('/:cid/messages/:mid/replies/:rid', repliesCtrl.delete);
+router.get('/:cid/messages/:mid/replies/:rid/edit', repliesCtrl.edit);
 
 module.exports = router;
