@@ -9,7 +9,6 @@ passport.use(new GoogleStrategy({
 },
 function(accessToken, refreshToken, profile, cb) {
     // A user has logged in via Google Oauth
-    console.log('profile', profile);
     Member.findOne({ 'googleId': profile.id }, function(err, member) {
         if (err) return cb(err);
         if (member) {
