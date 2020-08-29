@@ -24,5 +24,28 @@ function create(req, res) {
 }
 
 function deleteReply(req, res) {
-    
+    Message.findById(req.params.mid, function(err, message) {
+        if (err) return console.log(err);
+        Reply.findById(req.params.rid, function(err, reply) {
+            if (err) return console.log(err);
+            message.replies.pop();
+            if (message.replies.length || !message.removed) {
+                message.save(function(err) {
+                    if (err) return console.log(err);
+                    reply.remove(function(err) {
+                        if (err) return console.log(err);
+                        res.redirect(`/channels/${req.params.cid}/messages/${req.params.mid}`);
+                    });
+                });
+            } else {
+                message.remove(function(err) {
+                    if (err) return console.log(err);
+                    reply.remove(function(err) {
+                        if (err) return console.log(err);
+                        res.redirect(`/channels/${req.params.cid}`);
+                    });
+                });
+            }
+        });
+    });
 }

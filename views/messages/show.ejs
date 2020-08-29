@@ -2,20 +2,28 @@
 <%- include('../partials/channels'); %>
 
 <div class="messages-container">
-    <div class="message-container">
-        <div class="message-head">
-            <img src="<%= message.member.avatar %>" alt="avatar">
-            <h1><%= message.member.name %></h1>
-            <p><%= formatAMPM(new Date(message.createdAt)) %></p>
-        </div>
-        <div class="message-content">
-            <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
-            <div class="content">
-                <p><%= message.content %></p>
+    <div class="message-wrapper">
+        <div class="message-container">
+            <div class="message-head">
+                <% if (!message.removed) { %>
+                    <img src="<%= message.member.avatar %>" alt="avatar">
+                    <h1><%= message.member.name %></h1>
+                    <p><%= formatAMPM(new Date(message.createdAt)) %></p>
+                <% } %>
+            </div>
+            <div class="message-content <%= message.removed ? 'removed' : '' %>">
+                <% if (message.removed) { %>
+                    <h1><i class="fas fa-trash-alt"></i></h1>
+                <% } else { %>
+                        <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
+                <% } %>
+                <div class="content">
+                    <p><%= message.content %></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="message-date">
+    <div class="message-strike">
         <h1><span>Replies</span></h1>
     </div>
     <% if (replies.length) {
@@ -31,19 +39,21 @@
                     <% } %>
                 </div>
             </div>
-            <div class="message-content">
-                <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
-                <div class="content">
-                    <p><%= reply.content %></p>
-                    <div class="message-details">
-                        <% if (user && user._id.equals(reply.member._id)) { %>
-                            <form action="">
-                                <button><i class="far fa-edit"></i></button>
-                            </form>
-                            <form action="">
-                                <button class="delete"><i class="fas fa-backspace"></i></button>
-                            </form>
-                        <% } %>
+            <div class="message-wrapper">
+                <div class="message-content">
+                    <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
+                    <div class="content">
+                        <p><%= reply.content %></p>
+                        <div class="message-details">
+                            <% if (user && user._id.equals(reply.member._id)) { %>
+                                <form action="">
+                                    <button><i class="far fa-edit"></i></button>
+                                </form>
+                                <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>?_method=DELETE" method="POST">
+                                    <button class="delete"><i class="fas fa-backspace"></i></button>
+                                </form>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
             </div>

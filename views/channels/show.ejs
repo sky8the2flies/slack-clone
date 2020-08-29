@@ -10,7 +10,7 @@
             <div class="message-container">
                 <% const curDate = new Date(message.createdAt);
                 if (prevDate.getDay() < curDate.getDay()) { %>
-                    <div class="message-date">
+                    <div class="message-strike">
                         <h1><span><%= formatDate(curDate) %></span></h1>
                     </div>
                     <% prevDate = curDate;
