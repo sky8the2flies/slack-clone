@@ -2,30 +2,8 @@ const Channel = require('../models/channel');
 const Message = require('../models/message');
 
 module.exports = {
-    show,
     create,
     delete: deleteChannel
-}
-
-function show(req, res) {
-    Channel.find({}, function(err, channels) {
-        if (err) return console.log(err);
-        Channel.findById(req.params.cid, function(err, chan) {
-            if (err) return console.log(err);
-            Message.find({channel: chan._id}).populate('member').exec(function(err, messages) {
-                if (err) return console.log(err);
-                console.log(messages)
-                res.render('channels/show', {
-                    channel: {
-                        current: chan,
-                        all: channels
-                    },
-                    messages,
-                    user: req.user
-                });
-            });
-        });
-    });
 }
 
 function create(req, res) {

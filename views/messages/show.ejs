@@ -2,71 +2,74 @@
 <%- include('../partials/channels'); %>
 
 <div class="messages-container">
-    <div class="message-wrapper">
-        <div class="message-container">
-            <div class="message-head">
-                <% if (!message.removed) { %>
-                    <img src="<%= message.member.avatar %>" alt="avatar">
-                    <h1><%= message.member.name %></h1>
-                    <p><%= formatAMPM(new Date(message.createdAt)) %></p>
-                <% } %>
-            </div>
-            <div class="message-content <%= message.removed ? 'removed' : '' %>">
-                <% if (message.removed) { %>
-                    <h1><i class="fas fa-trash-alt"></i></h1>
-                <% } else { %>
-                        <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
-                <% } %>
-                <div class="content">
-                    <p><%= message.content %></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="message-strike">
-        <h1><span>Replies</span></h1>
-    </div>
-    <% if (replies.length) {
+    <% if (messages && messages.length) {
         let prevMember;
-        replies.forEach(reply => { %>
+        let prevDate = new Date(messages[0].createdAt);
+        prevDate.setDate(prevDate.getDay() - 1);
+        messages.forEach(message => { %>
             <div class="message-container">
+                <% const curDate = new Date(message.createdAt);
+                if (prevDate.getDay() < curDate.getDay()) { %>
+                    <div class="message-strike">
+                        <h1><span><%= formatDate(curDate) %></span></h1>
+                    </div>
+                    <% prevDate = curDate;
+                } %>
                 <div class="message-head">
-                    <% if (prevMember !== reply.member._id) { %>
-                        <img src="<%= reply.member.avatar %>" alt="avatar">
-                        <h1><%= reply.member.name %></h1>
-                        <p><%= formatAMPM(new Date(reply.createdAt)) %></p>
-                        <% prevMember = reply.member._id %>
+                    <% if (prevMember !== message.member._id) { %>
+                        <% if (!message.removed) { %>
+                            <img src="<%= message.member.avatar %>" alt="avatar">
+                            <h1><%= message.member.name %></h1>
+                            <p><%= formatAMPM(new Date(message.createdAt)) %></p>
+                            <% prevMember = message.member._id %>
+                        <% } else {
+                            prevMember = null;
+                        } %>
                     <% } %>
                 </div>
-            </div>
-            <div class="message-wrapper">
-                <div class="message-content">
-                    <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
-                    <div class="content">
-                        <p><%= reply.content %></p>
-                        <div class="message-details">
-                            <% if (user && user._id.equals(reply.member._id)) { %>
-                                <form action="">
-                                    <button><i class="far fa-edit"></i></button>
-                                </form>
-                                <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>?_method=DELETE" method="POST">
-                                    <button class="delete"><i class="fas fa-backspace"></i></button>
-                                </form>
-                            <% } %>
+                <div class="message-wrapper">
+                    <div class="message-content <%= message.removed ? 'removed' : '' %>">
+                        <% if (message.removed) { %>
+                            <h1><i class="fas fa-trash-alt"></i></h1>
+                        <% } else { %>
+                                <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
+                        <% } %>
+                        <div class="content">
+                            <p><%= message.content %></p>
+                            <div class="message-details">
+                                <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>"><i class="fas fa-reply"></i></a>
+                                <% if (user && user._id.equals(message.member._id)) { %>
+                                    <% if (!message.removed) { %>
+                                        <form action="" method="POST">
+                                            <button><i class="far fa-edit"></i></button>
+                                        </form>
+                                        <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>?_method=DELETE" method="POST">
+                                            <button class="delete"><i class="fas fa-backspace"></i></button>
+                                        </form>
+                                    <% } 
+                                } %>
+                            </div>
                         </div>
                     </div>
+                    <% if (message.replies.length) { %>
+                        <div class="message-replies">
+                            <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>">
+                                <i class="fas fa-reply-all"> <%= message.replies.length %> <%= message.replies.length === 1 ? 'reply' : 'replies' %> </i>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
-            </div>
-        <% });
-     } %>
+           </div> 
+        <% }); 
+    } %>
 </div>
 <div class="messagebox-container">
-    <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
+    <form action="/channels/<%= channel.current._id %>/messages" method="POST">
         <div class="form-textarea w90">
-            <textarea placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
+            <textarea placeholder="Message #<%= channel.current.name %>" name="content"></textarea>
         </div>
         <div class="form-submit w90">
-            <input type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
+            <input type="submit" value="Message #<%= channel.current.name %>">
         </div>
     </form>
 </div>

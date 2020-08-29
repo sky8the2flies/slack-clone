@@ -2,9 +2,35 @@ const Message = require('../models/message');
 const Reply = require('../models/reply');
 
 module.exports = {
+    show,
     create,
     delete: deleteReply
 }
+
+function show(req, res) {
+    Channel.find({}, function(err, channels) {
+        if (err) return console.log(err);
+        Channel.findById(req.params.cid).exec(function(err, channel) {
+            if (err) return console.log(err);
+            Message.findById(req.params.mid).populate('member').exec(function(err, message) {
+                if (err) return console.log(err);
+                Reply.find({message: message._id}).populate('member').exec(function(err, replies) {
+                    if (err) return console.log(err);
+                    res.render('replies/show', {
+                        channel: {
+                            current: channel,
+                            all: channels
+                        },
+                        message,
+                        replies,
+                        user: req.user
+                    });
+                });
+            });
+        });
+    });
+}
+
 
 function create(req, res) {
     req.body.message = req.params.mid;

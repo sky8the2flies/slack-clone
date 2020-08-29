@@ -4,6 +4,7 @@ const Reply = require('../models/reply');
 
 module.exports = {
     show,
+    edit,
     create,
     delete: deleteMessage
 }
@@ -11,25 +12,26 @@ module.exports = {
 function show(req, res) {
     Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
-        Channel.findById(req.params.cid).exec(function(err, channel) {
+        Channel.findById(req.params.cid, function(err, chan) {
             if (err) return console.log(err);
-            Message.findById(req.params.mid).populate('member').exec(function(err, message) {
+            Message.find({channel: chan._id}).populate('member').exec(function(err, messages) {
                 if (err) return console.log(err);
-                Reply.find({message: message._id}).populate('member').exec(function(err, replies) {
-                    if (err) return console.log(err);
-                    res.render('messages/show', {
-                        channel: {
-                            current: channel,
-                            all: channels
-                        },
-                        message,
-                        replies,
-                        user: req.user
-                    });
+                console.log(messages)
+                res.render('messages/show', {
+                    channel: {
+                        current: chan,
+                        all: channels
+                    },
+                    messages,
+                    user: req.user
                 });
             });
         });
     });
+}
+
+function edit(req, res) {
+    
 }
 
 function create(req, res) {
