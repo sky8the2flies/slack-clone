@@ -12,7 +12,14 @@ function create(req, res) {
     const reply = new Reply(req.body);
     reply.save(function(err) {
         if (err) return console.log(err);
-        res.redirect(`/channels/${req.params.cid}/messages/${req.params.mid}`);
+        Message.findById(req.params.mid, function(err, message) {
+            if (err) return console.log(err);
+            message.replies.push(true);
+            message.save(function(err) {
+                if (err) return console.log(err);
+                res.redirect(`/channels/${req.params.cid}/messages/${req.params.mid}`);
+            });
+        });
     })
 }
 

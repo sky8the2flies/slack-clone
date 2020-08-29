@@ -43,5 +43,19 @@ function create(req, res) {
 }
 
 function deleteMessage(req, res) {
-
+    Message.findById(req.params.mid, function(err, message) {
+        if (message.replies) {
+            message.content = "This message was deleted."
+            message.removed = true;
+            message.save(function(err) {
+                if (err) return console.log(err);
+                res.redirect(`/channels/${req.params.cid}`)
+            });
+        } else {
+            message.remove(function(err) {
+                if (err) return console.log(err);
+                res.redirect(`/channels/${req.params.cid}`)
+            });
+        }
+    });
 }
