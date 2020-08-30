@@ -5,6 +5,7 @@ const messageCtrl = require('../controllers/messages');
 const repliesCtrl = require('../controllers/replies');
 
 router.post('/', channelCtrl.create);
+router.delete('/:cid', channelCtrl.delete);
 router.get('/:cid', messageCtrl.show);
 router.post('/:cid/messages', messageCtrl.create);
 router.put('/:cid/messages/:mid', messageCtrl.update);

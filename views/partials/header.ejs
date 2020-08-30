@@ -13,12 +13,26 @@
             <h1>TEMP</h1>
         </div>
         <div class="nav-main-container">
-            <% if (channel && channel.current) { %>
-                <h1>#<%= channel.current.name %></h1>
+            <div class="nav-channel-name">
+                <% if (channel && channel.current) { %>
+                    <h1>#<%= channel.current.name %></h1>
+                    <p><%= channel.current.description %></p>
+                <% } %>
+            </div>
+            <% if (channel.current) { %>
+                <div class="nav-channel-options">
+                    <a href="/channels/<%= channel.current._id %>/members/edit"><i class="fas fa-user-plus"></i></a>
+                    <a href="/channels/<%= channel.current._id %>"><i class="far fa-edit"></i></a>
+                    <form action="/channels/<%= channel.current._id %>?_method=DELETE" method="POST">
+                        <button><i class="delete fas fa-backspace"></i></button>
+                    </form>
+                </div>
             <% } %>
+        </div>
+        <div class="nav-user">
             <% if (user) { %>
-                <h2>Welcome, <%= user.name %></h2>
-                <a href="/logout">Logout</a>
+                <h3>Welcome, <%= user.name %></h3>
+                <a href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
             <% } else { %>
                 <a href="/auth/google">Login with <i class="fab fa-google"></i></a>
             <% } %>
