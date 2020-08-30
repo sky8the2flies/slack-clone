@@ -14,9 +14,9 @@ function show(req, res) {
     Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
         Channel.findById(req.params.cid).exec(function(err, channel) {
-            if (err || !channel) return console.log(err);
+            if (err || !channel) return res.redirect('/');
             Message.findById(req.params.mid).populate('member').exec(function(err, message) {
-                if (err || !message) return console.log(err);
+                if (err || !message) return res.redirect('/');
                 Reply.find({message: message._id}).populate('member').exec(function(err, replies) {
                     if (err) return console.log(err);
                     res.render('replies/show', {
@@ -38,9 +38,9 @@ function edit(req, res) {
     Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
         Channel.findById(req.params.cid).exec(function(err, channel) {
-            if (err || !channel) return console.log(err);
+            if (err || !channel) return res.redirect('/');
             Message.findById(req.params.mid).populate('member').exec(function(err, message) {
-                if (err || !message) return console.log(err);
+                if (err || !message) return res.redirect('/');
                 Reply.find({message: message._id}).populate('member').exec(function(err, replies) {
                     if (err) return console.log(err);
                     res.render('replies/edit', {
@@ -63,7 +63,7 @@ function edit(req, res) {
 
 function update(req, res) {
     Reply.findById(req.params.rid, function(err, reply) {
-        if (err || !reply) return console.log(err);
+        if (err || !reply) return res.redirect('/');
         reply.content = req.body.content;
         reply.save(function (err) {
             if (err) return console.log(err);
@@ -80,7 +80,7 @@ function create(req, res) {
     reply.save(function(err) {
         if (err) return console.log(err);
         Message.findById(req.params.mid, function(err, message) {
-            if (err || !message) return console.log(err);
+            if (err || !message) return res.redirect('/');
             message.replies.push(true);
             message.save(function(err) {
                 if (err) return console.log(err);
@@ -92,9 +92,9 @@ function create(req, res) {
 
 function deleteReply(req, res) {
     Message.findById(req.params.mid, function(err, message) {
-        if (err || !message) return console.log(err);
+        if (err || !message) return res.redirect('/');
         Reply.findById(req.params.rid, function(err, reply) {
-            if (err || !reply) return console.log(err);
+            if (err || !reply) return res.redirect('/');
             message.replies.pop();
             if (message.replies.length || !message.removed) {
                 message.save(function(err) {

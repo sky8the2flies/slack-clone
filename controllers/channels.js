@@ -22,7 +22,7 @@ function create(req, res) {
 
 function deleteChannel(req, res) {
     Channel.findById(req.params.cid, function(err, channel) {
-        if (err || !channel) return console.log(err);
+        if (err || !channel) return res.redirect('/');
         if (!channel.members[0].equals(req.user._id)) return res.redirect('/');
         channel.remove(function (err) {
             if (err) return console.log(err);
