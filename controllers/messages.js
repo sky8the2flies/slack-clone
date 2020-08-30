@@ -14,7 +14,7 @@ function show(req, res) {
     Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
         Channel.findById(req.params.cid, function(err, chan) {
-            if (err) return console.log(err);
+            if (err || !chan) return console.log(err);
             Message.find({channel: chan._id}).populate('member').exec(function(err, messages) {
                 if (err) return console.log(err);
                 res.render('messages/show', {
@@ -34,7 +34,7 @@ function edit(req, res) {
     Channel.find({}, function(err, channels) {
         if (err) return console.log(err);
         Channel.findById(req.params.cid, function(err, chan) {
-            if (err) return console.log(err);
+            if (err || !chan) return console.log(err);
             Message.find({channel: chan._id}).populate('member').exec(function(err, mess) {
                 if (err) return console.log(err);
                 res.render('messages/edit', {
@@ -55,7 +55,7 @@ function edit(req, res) {
 
 function update(req, res) {
     Message.findById(req.params.mid, function(err, message) {
-        if (err) return console.log(err);
+        if (err || !message) return console.log(err);
         message.content = req.body.content;
         message.save(function (err) {
             if (err) return console.log(err);
@@ -76,6 +76,7 @@ function create(req, res) {
 
 function deleteMessage(req, res) {
     Message.findById(req.params.mid, function(err, message) {
+        if (err || !message) return console.log(err);
         if (message.replies.length) {
             message.content = "This message was deleted."
             message.removed = true;
