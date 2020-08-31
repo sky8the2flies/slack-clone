@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<%- include('../channels/show') %>
+
+<div class="messages-container">
+    <form id="invite-channel-form" class="messages-container" action="/channels/<%= channel.current._id %>/members" method="POST">
+        <select name="member">
+            <% members.forEach(member => { %>
+                <% if (!channel.current.members.find(memb => member._id.equals(memb))) {%>
+                    <option value="<%= member._id %>"><%= member.name %></option>
+                <% } %>
+            <% }); %>
+        </select>
+        <div class="form-submit w90">
+            <input type="submit" value="Invite to #<%= channel.current.name %>">
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -21,8 +21,8 @@
             </div>
             <% if (channel.current) { %>
                 <div class="nav-channel-options">
-                    <a href="/channels/<%= channel.current._id %>/members/edit"><i class="fas fa-user-plus"></i></a>
-                    <a href="/channels/<%= channel.current._id %>"><i class="far fa-edit"></i></a>
+                    <a href="/channels/<%= channel.current._id %>/members/new"><i class="fas fa-user-plus"></i></a>
+                    <a href="/channels/<%= channel.current._id %>/edit"><i class="far fa-edit"></i></a>
                     <form action="/channels/<%= channel.current._id %>?_method=DELETE" method="POST">
                         <button><i class="delete fas fa-backspace"></i></button>
                     </form>
