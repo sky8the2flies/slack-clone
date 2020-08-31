@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<%- include('./show') %>
+
+<div class="messages-container">
+    <form id="edit-channel-form" class="messages-container" action="/channels/<%= channel.current._id %>?_method=PUT" method="POST">
+        <div class="form-input w90">
+            <input pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" placeholder="Channel Name" value="<%= channel.current.name.replace(/-+/g, ' ') %>" type="text" name="name" required>
+        </div>
+        <div class="form-textarea w90">
+            <textarea placeholder="Channel Description" name="description"><%= channel.current.description %></textarea>
+        </div>
+        <div class="form-checkbox">
+            <label for="form-private-edit">Private</label>
+            <input id="form-private-edit" type="checkbox" name="channelType" <%= channel.current.channelType === '1' ? 'checked' : '' %>>
+        </div>
+        <div class="form-submit w90">
+            <input type="submit" value="Add Channel">
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>
