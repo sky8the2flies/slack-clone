@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DATABASE_URLS || `mongodb://localhost/slack-clone`, {
+mongoose.connect(process.env.DATABASE_URL || `mongodb://localhost/slack-clone`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
