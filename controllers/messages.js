@@ -1,6 +1,5 @@
 const Channel = require('../models/channel');
 const Message = require('../models/message');
-const Reply = require('../models/reply');
 
 module.exports = {
     show,

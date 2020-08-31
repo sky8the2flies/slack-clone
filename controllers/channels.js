@@ -1,6 +1,5 @@
 const Channel = require('../models/channel');
 const Message = require('../models/message');
-const Reply = require('../models/reply');
 const Invite = require('../models/invite');
 
 module.exports = {
@@ -28,16 +27,8 @@ function deleteChannel(req, res) {
             if (err) return console.log(err);
             res.redirect('/');
             Invite.deleteMany({channel: req.params.cid}, function(err) {
-                Message.find({channel: req.params.cid}, function(err, messages) {
+                Message.deleteMany({channel: req.params.cid}, function(err) {
                     if (err) return console.log(err);
-                    messages.forEach(message => {
-                        Reply.deleteMany({message: message._id}, function(err) {
-                            if (err) return console.log(err);
-                            message.remove(function(err) {
-                                if (err) return console.log(err);
-                            });
-                        });
-                    });
                 });
             });
         });
