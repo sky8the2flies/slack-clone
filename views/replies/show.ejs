@@ -46,9 +46,9 @@
                         <p><%= reply.content %></p>
                         <div class="message-details">
                             <% if (user && user._id.equals(reply.member._id)) { %>
-                                <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>/edit"><i class="far fa-edit"></i></a>
+                                <a class="click" href="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>/edit"><i class="far fa-edit"></i></a>
                                 <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>?_method=DELETE" method="POST">
-                                    <button class="delete"><i class="fas fa-backspace"></i></button>
+                                    <button class="delete click"><i class="fas fa-backspace"></i></button>
                                 </form>
                             <% } %>
                         </div>
@@ -58,14 +58,11 @@
         <% });
      } %>
 </div>
+
 <div class="messagebox-container">
-    <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
-        <div class="form-textarea w90">
-            <textarea placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
-        </div>
-        <div class="form-submit w90">
-            <input type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
-        </div>
+    <form class="form" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
+        <textarea class="form-textarea <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
+        <input class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
     </form>
 </div>
 

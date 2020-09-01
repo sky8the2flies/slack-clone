@@ -30,10 +30,10 @@
                 <div class="message-wrapper">
                     <% if (message._id.equals(messages.current)) { %>
                         <form class="snap" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>?_method=PUT" method="POST">
-                            <textarea name="content"><%= message.content %></textarea>
-                            <input type="submit" value="Save Changes">
+                            <textarea class="form-input" name="content"><%= message.content %></textarea>
+                            <input class="form-submit" type="submit" value="Save Changes">
                         </form>
-                        <a href="/channels/<%= channel.current._id %>">CANCEL</a>
+                        <a class="form-cancel" href="/channels/<%= channel.current._id %>">CANCEL</a>
                     <% } else { %>
                         <div class="message-content <%= message.removed ? 'removed' : '' %>">
                             <% if (message.removed) { %>
@@ -73,12 +73,8 @@
 
 <div class="messagebox-container">
     <form action="/channels/<%= channel.current._id %>/messages" method="POST">
-        <div class="form-textarea w90">
-            <textarea placeholder="Message #<%= channel.current.name %>" name="content"></textarea>
-        </div>
-        <div class="form-submit w90">
-            <input type="submit" value="Message #<%= channel.current.name %>">
-        </div>
+        <textarea class="form-textarea <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> placeholder="Message #<%= channel.current.name %>" name="content"></textarea>
+        <button class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> type="submit">Message <i class="fab fa-slack-hash"></i><%= channel.current.name %></button>
     </form>
 </div>
 

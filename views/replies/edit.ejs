@@ -42,14 +42,10 @@
             <div class="message-wrapper">
                 <% if (reply._id.equals(replies.current)) { %>
                     <form class="snap" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>/replies/<%= reply._id %>?_method=PUT" method="POST">
-                        <div class="form-textarea w90">
-                            <textarea name="content"><%= reply.content %></textarea>
-                        </div>
-                        <div class="form-submit w90">
-                            <input type="submit" value="Save Changes">
-                        </div>
+                        <textarea class="form-textarea" name="content"><%= reply.content %></textarea>
+                        <input class="form-submit" type="submit" value="Save Changes">
                     </form>
-                    <a href="/channels/<%= channel.current._id %>/messages/<%= message._id %>">CANCEL</a>
+                    <a class="form-cancel"href="/channels/<%= channel.current._id %>/messages/<%= message._id %>">CANCEL</a>
                 <% } else { %>
                     <div class="message-content">
                         <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
@@ -70,14 +66,11 @@
         <% });
      } %>
 </div>
+
 <div class="messagebox-container">
-    <form action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
-        <div class="form-textarea w90">
-            <textarea placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
-        </div>
-        <div class="form-submit w90">
-            <input type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
-        </div>
+    <form class="form" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
+        <textarea class="form-textarea <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
+        <input class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
     </form>
 </div>
 

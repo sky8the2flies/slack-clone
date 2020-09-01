@@ -10,22 +10,26 @@
 <body class="container">
     <div class="nav-container">
         <div class="nav-side-container">
-            <h1>TEMP</h1>
+            <h1>KLACK</h1>
         </div>
         <div class="nav-main-container">
             <div class="nav-channel-name">
                 <% if (channel && channel.current) { %>
-                    <h1>#<%= channel.current.name %></h1>
+                    <h1><i class="fab fa-slack-hash"></i><%= channel.current.name %></h1>
                     <p><%= channel.current.description %></p>
                 <% } %>
             </div>
             <% if (channel.current) { %>
                 <div class="nav-channel-options">
-                    <a href="/channels/<%= channel.current._id %>/members/new"><i class="fas fa-user-plus"></i></a>
-                    <a href="/channels/<%= channel.current._id %>/edit"><i class="far fa-edit"></i></a>
-                    <form action="/channels/<%= channel.current._id %>?_method=DELETE" method="POST">
-                        <button><i class="delete fas fa-backspace"></i></button>
-                    </form>
+                    <% if (channel.current && channel.current.channelType === '1' && user && user._id.equals(channel.current.members[0])) { %>
+                        <a href="/channels/<%= channel.current._id %>/members/new"><i class="fas fa-user-plus"></i></a>
+                    <% } %>
+                    <% if (channel.current && user && user._id.equals(channel.current.members[0])) { %>
+                        <a href="/channels/<%= channel.current._id %>/edit"><i class="far fa-edit"></i></a>
+                        <form action="/channels/<%= channel.current._id %>?_method=DELETE" method="POST">
+                            <button><i class="delete fas fa-backspace"></i></button>
+                        </form>
+                    <% } %>
                 </div>
             <% } %>
         </div>
