@@ -17,6 +17,9 @@ require('./config/passport')
 
 const indexRouter = require('./routes/index');
 const channelRouter = require('./routes/channels');
+const messagesRouter = require('./routes/messages');
+const repliesRouter = require('./routes/replies');
+const membersRouter = require('./routes/members');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +47,9 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/channels', channelRouter);
+app.use('/channels', messagesRouter);
+app.use('/channels', repliesRouter);
+app.use('/channels', membersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
