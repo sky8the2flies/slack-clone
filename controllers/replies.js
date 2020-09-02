@@ -58,6 +58,7 @@ function update(req, res) {
     Message.findById(req.params.mid, function(err, message) {
         if (err || !message) return res.redirect('/');
         const reply = message.replies[message.replies.findIndex(reply => reply._id.equals(req.params.rid))];
+        if (!reply.member.equals(req.user._id)) return res.redirect('/');
         reply.content = req.body.content;
         message.save(function (err) {
             if (err) return console.log(err);
@@ -82,6 +83,8 @@ function create(req, res) {
 function deleteReply(req, res) {
     Message.findById(req.params.mid, function(err, message) {
         if (err || !message) return res.redirect('/');
+        const reply = message.replies[message.replies.findIndex(reply => reply._id.equals(req.params.rid))];
+        if (!reply.member.equals(req.user._id)) return res.redirect('/');
         message.replies.splice(message.replies.findIndex(reply => reply._id.equals(req.params.rid)), 1)
         if (message.replies.length || !message.removed) {
             message.save(function(err) {

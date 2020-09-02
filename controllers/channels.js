@@ -42,6 +42,7 @@ function update(req, res) {
     req.body.channelType ? req.body.channelType = '1' : req.body.channelType = '0';
     Channel.findById(req.params.cid, function(err, channel) {
         if (err || !channel) return res.redirect('/');
+        if (!channel.members[0].equals(req.user._id)) return res.redirect('/');
         channel.name = req.body.name;
         channel.description = req.body.description;
         channel.channelType = req.body.channelType;

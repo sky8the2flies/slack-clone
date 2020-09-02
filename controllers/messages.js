@@ -55,6 +55,7 @@ function edit(req, res) {
 function update(req, res) {
     Message.findById(req.params.mid, function(err, message) {
         if (err || !message) return res.redirect('/');
+        if (!message.member.equals(req.user._id)) return res.redirect('/');
         message.content = req.body.content;
         message.save(function (err) {
             if (err) return console.log(err);
@@ -76,6 +77,7 @@ function create(req, res) {
 function deleteMessage(req, res) {
     Message.findById(req.params.mid, function(err, message) {
         if (err || !message) return res.redirect('/');
+        if (!message.member.equals(req.user._id)) return res.redirect('/');
         if (message.replies.length) {
             message.content = "This message was deleted."
             message.removed = true;
