@@ -60,9 +60,9 @@
 </div>
 
 <div class="messagebox-container">
-    <form class="form" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
+    <form class="message-form" class="form" action="/channels/<%= channel.current._id %>/messages/<%= message._id %>" method="POST">
         <textarea class="form-textarea <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> placeholder="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>" name="content"></textarea>
-        <input class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> type="submit" value="Reply to @<%= message.member.name.replace(/\s/g, '-').toLowerCase() %>">
+        <button class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %>><i class="fas fa-paper-plane"></i></button>
     </form>
 </div>
 

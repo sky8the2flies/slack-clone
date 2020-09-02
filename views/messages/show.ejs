@@ -4,17 +4,8 @@
 <div class="messages-container">
     <% if (messages && messages.length) {
         let prevMember;
-        let prevDate = new Date(messages[0].createdAt);
-        prevDate.setDate(prevDate.getDay() - 1);
         messages.forEach(message => { %>
             <div class="message-container">
-                <% const curDate = new Date(message.createdAt);
-                if (prevDate.getDay() < curDate.getDay()) { %>
-                    <div class="message-strike">
-                        <h1><span><%= formatDate(curDate) %></span></h1>
-                    </div>
-                    <% prevDate = curDate;
-                } %>
                 <div class="message-head">
                     <% if (prevMember !== message.member._id) { %>
                         <% if (!message.removed) { %>
@@ -64,9 +55,9 @@
 </div>
 
 <div class="messagebox-container">
-    <form action="/channels/<%= channel.current._id %>/messages" method="POST">
+    <form class="message-form" action="/channels/<%= channel.current._id %>/messages" method="POST">
         <textarea class="form-textarea <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> placeholder="Message #<%= channel.current.name %>" name="content"></textarea>
-        <button class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %> type="submit">Message <i class="fab fa-slack-hash"></i><%= channel.current.name %></button>
+        <button class="form-submit <%= user ? 'click' : 'no-click' %>" <%= user ? '' : 'disabled' %>><i class="fas fa-paper-plane"></i></button>
     </form>
 </div>
 
