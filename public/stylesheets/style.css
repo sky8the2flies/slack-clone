@@ -92,6 +92,17 @@ form {
 	height: 30px;
 	background: #212629;
 }
+#invite-channel-form .form-select {
+    background: #212629;
+    color:#eee;
+}
+#invite-channel-form .form-submit {
+	margin: 10px;
+	padding: 10px;
+	background: #212629;
+	width: 25%;
+
+}
 /* === NAV SECTION === */
 .nav-container {
 	grid-column: 1/3;

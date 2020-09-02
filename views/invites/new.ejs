@@ -3,14 +3,14 @@
 
 <div class="messages-container">
     <form id="invite-channel-form" class="messages-container" action="/channels/<%= channel.current._id %>/members" method="POST">
-        <select name="member">
+        <select class="form-select" name="member">
             <% members.forEach(member => { %>
                 <% if (!channel.current.members.find(memb => member._id.equals(memb))) {%>
                     <option value="<%= member._id %>"><%= member.name %></option>
                 <% } %>
             <% }); %>
         </select>
-        <input class="form-submit" type="submit" value="Invite to #"></i><%= channel.current.name %>">
+        <input class="form-submit" type="submit" value="Invite to #<%= channel.current.name %>">
     </form>
 </div>
 
