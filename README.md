@@ -10,7 +10,9 @@ Ever heard of [Slack](https://slack.com/)? I wanted to make a simpler clone of t
 - [Author](#Author)
 
 ## Images
-TODO
+![Image 1](https://imgur.com/HmfAQ4n)
+![Image 2](https://imgur.com/xz4WMPx)
+![Image 3](https://imgur.com/7xrchmd)
 
 ## Technologies used
 1. HTML
