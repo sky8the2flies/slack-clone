@@ -11,8 +11,7 @@ Ever heard of [Slack](https://slack.com/)? I wanted to make a simpler clone of t
 
 ## Images
 ![Image 1](https://i.imgur.com/HmfAQ4n.png)
-![Image 2](https://i.imgur.com/xz4WMPx.png)
-![Image 3](https://i.imgur.com/7xrchmd.png)
+![Image 2](https://i.imgur.com/IY4v7pm.png)
 
 ## Technologies used
 1. HTML
