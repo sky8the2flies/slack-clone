@@ -22,16 +22,20 @@ TODO
 ## Getting Started
 ### Instructions
 To use the app just follow these simple steps:
-1. TODO
+1. Click the link
+2. Login by clicking the button in the top right.
+3. Browse around!
 
 ### View
 To view the app just click the link
 
-[TODO](#)
+[KLACK](https://ss-klack.herokuapp.com)
 
 ## Next Steps
 - [] Add reactions for messages and replies
 - [] Add emojis in the post
+- [] Allow users to leave private channels.
+- [] Allow users to block channels.
 - [] Make it real-time
 
 ## Author
