@@ -273,6 +273,9 @@ form {
 	align-items: center;
 	margin: 5px 5px 5px 20px;
 }
+.content p a {
+	color: #1D9BC6;
+}
 .removed > .content {
 	margin-left: 15px;
 	font-weight: 700;

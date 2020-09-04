@@ -18,7 +18,7 @@
                         <p class="time"><%= formatHM(new Date(message.createdAt)) %></p>
                 <% } %>
                 <div class="content">
-                    <p><%= message.content %></p>
+                    <p><%- linkify(message.content) %></p>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <div class="message-content">
                         <p class="time"><%= formatHM(new Date(reply.createdAt)) %></p>
                         <div class="content">
-                            <p><%= reply.content %></p>
+                            <p><%- linkify(reply.content) %></p>
                             <div class="message-details">
                                 <% if (user && user._id.equals(reply.member._id)) { %>
                                     <a href=""><i class="far fa-edit"></i></a>
@@ -79,37 +79,23 @@
 <%- include('../partials/footer'); %>
 
 <% 
-function getDay(day) {
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return weekdays[day];
-}
-function getMonth(month) {
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-    return monthNames[month];
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
-}
-function ordinalSuffix(i) {
-    var j = i % 10,
-        k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
-    }
-    if (j == 2 && k != 12) {
-        return i + "nd";
-    }
-    if (j == 3 && k != 13) {
-        return i + "rd";
-    }
-    return i + "th";
-}
-function formatDate(date) {
-    const day = date.getDay();
-    const dayStr = getDay(day);
-    const ordSuf = ordinalSuffix(day);
-    const month = getMonth(date.getMonth());
-    const strDate = `${dayStr}, ${month} ${ordSuf}`;
-    return strDate;
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+    replacedText = replacedText.replace(/script+class+div+/g, '');
+
+    return replacedText;
 }
 function formatAMPM(date) {
     let hours = date.getHours();
